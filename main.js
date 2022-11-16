@@ -28,6 +28,72 @@ function speak()
     var synth = window.speechSynthesis ;
     sp1 = "The First Prediction Is " + p1 ;
     sp2 = "The Second Prediction Is " + p2 ;
-    var utterThis = SpeechSynthesisUtterance(sp1 + sp2);
+    var utterThis = new SpeechSynthesisUtterance(sp1 + sp2);
     synth.speak(utterThis) ;
+}
+
+
+function check() 
+{
+    img = document.getElementById("captured_image") ;
+    classifier.classify(img, gotResults) ;
+}
+
+function gotResults(error, results) 
+{
+    if (error) 
+    {
+        console.log(error);
+    }
+    else 
+    {
+        console.log(results);
+        
+        r = Math.floor(Math.random() * 255) + 1 ;
+        g = Math.floor(Math.random() * 255) + 1 ;
+        b = Math.floor(Math.random() * 255) + 1 ;
+        r1 = Math.floor(Math.random() * 255) + 1 ;
+        g1 = Math.floor(Math.random() * 255) + 1 ;
+        b1 = Math.floor(Math.random() * 255) + 1 ;
+
+        document.getElementById("result_emotion_name").innerHTML = results[0].label ;
+        document.getElementById("result_emotion_name2").innerHTML = results[1].label ;
+
+        document.getElementById("result_emotion_name").style.color = "rgb("+r+","+g+","+b+")" ;
+        document.getElementById("result_emotion_name2").style.color = "rgb("+r1+","+g1+","+b1+")" ;
+
+        p1 = results[0].label ;
+        p2 = results[1].label ;
+
+        speak() ;
+
+        up = document.getElementById("update_emoji") ;
+        up2 = document.getElementById("update_emoji2") ;
+
+        if (results[0].label == "Amazing")
+        {
+            up.innerHTML = "&#128076" ;
+        }
+        if (results[0].label == "Best")
+        {
+            up.innerHTML = "&#128077" ;
+        }
+        if (results[0].label == "Victory")
+        {
+            up.innerHTML = "&#9996" ;
+        }
+        if (results[1].label == "Amazing")
+        {
+            up2.innerHTML = "&#128076" ;
+        }
+        if (results[1].label == "Best")
+        {
+            up2.innerHTML = "&#128077" ;
+        }
+        if (results[1].label == "Victory")
+        {
+            up2.innerHTML = "&#9996" ;
+        }
+        
+    }
 }
